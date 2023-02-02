@@ -1,0 +1,24 @@
+buildscript {
+  repositories {
+    jcenter()
+    maven { url "https://plugins.gradle.org/m2/" }
+  }
+  dependencies {
+       classpath 'com.netflix.nebula:gradle-ospackage-plugin:8.5.6'
+   }
+}
+
+apply plugin: 'nebula.ospackage'
+
+ospackage {
+  packageName = "mycompanyname-service"
+  version = "1.10.3"
+
+  requires('nginx')
+
+  postInstall file('config/scripts/post-install.sh')
+
+  from('build/application.war') {
+    into '/opt/application/'
+  }
+}
